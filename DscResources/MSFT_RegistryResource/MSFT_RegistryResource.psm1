@@ -142,10 +142,10 @@ function Get-TargetResource
 
     .PARAMETER Ensure
         Specifies whether or not the registry key with the given path and the registry key value with the given name should exist.
-        
+
         To ensure that the registry key and value exists, set this property to Present.
         To ensure that the registry key and value do not exist, set this property to Absent.
-        
+
         The default value is Present.
 
     .PARAMETER ValueData
@@ -153,7 +153,7 @@ function Get-TargetResource
 
     .PARAMETER ValueType
         The type of the value to set.
-        
+
         The supported types are:
             String (REG_SZ)
             Binary (REG-BINARY)
@@ -167,12 +167,12 @@ function Get-TargetResource
 
         If specified, DWORD/QWORD value data is presented in hexadecimal format.
         Not valid for other value types.
-        
+
         The default value is $false.
 
     .PARAMETER Force
         Specifies whether or not to overwrite the registry key with the given path with the new
-        value if it is already present. 
+        value if it is already present.
 #>
 function Set-TargetResource
 {
@@ -288,7 +288,7 @@ function Set-TargetResource
                             Write-Verbose -Message ($script:localizedData.OverwritingRegistryKeyValue -f $valueDisplayName, $Key)
                             $null = Set-RegistryKeyValue -RegistryKeyName $registryKeyName -RegistryKeyValueName $ValueName -RegistryKeyValue $expectedRegistryKeyValue -ValueType $ValueType
                         }
-                    }   
+                    }
                 }
             }
             else
@@ -297,7 +297,7 @@ function Set-TargetResource
                 if ($null -ne $actualRegistryKeyValue)
                 {
                     Write-Verbose -Message ($script:localizedData.RemovingRegistryKeyValue -f $valueDisplayName, $Key)
-                        
+
                     # If the specified registry key value exists, check if the user specified a registry key value with a name to remove
                     if (-not [String]::IsNullOrEmpty($ValueName))
                     {
@@ -352,7 +352,7 @@ function Set-TargetResource
 
     .PARAMETER Ensure
         Specifies whether or not the registry key and value should exist.
-        
+
         To test that they exist, set this property to "Present".
         To test that they do not exist, set the property to "Absent".
         The default value is "Present".
@@ -362,7 +362,7 @@ function Set-TargetResource
 
     .PARAMETER ValueType
         The type of the value.
-        
+
         The supported types are:
             String (REG_SZ)
             Binary (REG-BINARY)
@@ -928,7 +928,7 @@ function ConvertTo-ReadableString
         {
             $RegistryKeyValue = Convert-ByteArrayToHexString -ByteArray $RegistryKeyValue
         }
-        
+
         if ($RegistryKeyValueType -ne 'MultiString')
         {
             $RegistryKeyValue = [String[]]@() + $RegistryKeyValue
@@ -1335,7 +1335,7 @@ function Set-RegistryKeyValue
     }
     elseif ($ValueType -eq 'MultiString')
     {
-        $RegistryKeyValue = [String[]]$RegistryKeyValue
+        [String[]]$RegistryKeyValue = $RegistryKeyValue
     }
 
     $null = [Microsoft.Win32.Registry]::SetValue($RegistryKeyName, $RegistryKeyValueName, $RegistryKeyValue, $ValueType)
@@ -1414,9 +1414,9 @@ function Test-RegistryKeyValuesMatch
     .SYNOPSIS
         Removes the default value of the specified registry key.
         This is a wrapper function for unit testing.
-        
+
     .PARAMETER RegistryKey
-        The registry key to remove the default value of. 
+        The registry key to remove the default value of.
 #>
 function Remove-DefaultRegistryKeyValue
 {
